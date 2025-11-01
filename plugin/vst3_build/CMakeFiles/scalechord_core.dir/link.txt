@@ -1,0 +1,2 @@
+/usr/bin/ar qc libscalechord_core.a CMakeFiles/scalechord_core.dir/src/ChordAnalyzer.cpp.o CMakeFiles/scalechord_core.dir/src/ChordVoicer.cpp.o CMakeFiles/scalechord_core.dir/src/Envelope.cpp.o CMakeFiles/scalechord_core.dir/src/JazzReharmonizer.cpp.o CMakeFiles/scalechord_core.dir/src/MIDIEffects.cpp.o CMakeFiles/scalechord_core.dir/src/NoteTracker.cpp.o CMakeFiles/scalechord_core.dir/src/ScaleMapper.cpp.o CMakeFiles/scalechord_core.dir/src/VoiceLeading.cpp.o
+/usr/bin/ranlib libscalechord_core.a

@@ -1,0 +1,1 @@
+/usr/bin/c++ -DJUCE_GUI_EXTRA_HEADER_NOT_INCLUDED -O3 -DNDEBUG CMakeFiles/ScaleChordPlugin_vst3_helper.dir/tmp/JUCE/modules/juce_audio_plugin_client/VST3/juce_VST3ManifestHelper.cpp.o -o ScaleChordPlugin_vst3_helper 
