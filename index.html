@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ScaleChord v1.0.0 - AI-Powered Harmonic Intelligence for Music Producers">
+    <meta name="keywords" content="music, scales, chords, AI, plugin, DAW, Ableton, Logic, FL Studio">
+    <meta name="author" content="Thabo Ngutamo">
+    <title>ScaleChord - AI-Powered Harmonic Intelligence</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(0, 0, 0, 0.1);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .hero {
+            background: white;
+            border-radius: 10px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .hero h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .stats {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .stat {
+            padding: 1rem;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            color: #666;
+            margin-top: 0.5rem;
+        }
+        
+        .download-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .download-section h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+        }
+        
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .download-card {
+            border: 2px solid #667eea;
+            padding: 1.5rem;
+            border-radius: 5px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .download-card:hover {
+            background: #f8f8ff;
+            transform: translateY(-3px);
+        }
+        
+        .download-card h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .download-card .os-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .download-card .btn {
+            margin-top: 1rem;
+            width: 100%;
+            display: inline-block;
+        }
+        
+        footer {
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+        
+        .links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        
+        .links a:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+        
+        .version-badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            header p {
+                font-size: 1rem;
+            }
+            
+            .hero {
+                padding: 1.5rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎵 ScaleChord</h1>
+        <p>AI-Powered Harmonic Intelligence for Music Producers</p>
+        <div>
+            <span class="version-badge">v1.0.0</span>
+            <span class="version-badge">Free & Open Source</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="hero">
+            <h2>Real-Time Scale Detection & Chord Suggestions</h2>
+            <p style="font-size: 1.1rem; margin: 1rem 0; color: #666;">
+                Transform your music production with intelligent harmonic analysis. 
+                ScaleChord detects scales, suggests chords, and optimizes voice leading—all in real-time.
+            </p>
+            <div class="cta-buttons">
+                <a href="#download" class="btn btn-primary">⬇️ Download Now</a>
+                <a href="https://github.com/thabanghutamo/production-works" class="btn btn-secondary">🔗 GitHub Repo</a>
+                <a href="RELEASE_GETTING_STARTED.md" class="btn btn-secondary">📖 Get Started</a>
+            </div>
+        </section>
+
+        <section class="stats">
+            <h2>ScaleChord by the Numbers</h2>
+            <div class="stats-grid">
+                <div class="stat">
+                    <div class="stat-number">48</div>
+                    <div class="stat-label">Professional Scales</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">137/137</div>
+                    <div class="stat-label">Tests Passing</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">&lt;5%</div>
+                    <div class="stat-label">CPU Usage</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Platforms</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <h3>🎼 Real-Time Scale Detection</h3>
+                <p>Instantly detect scales from incoming MIDI notes. ScaleChord analyzes harmonic content in real-time.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🤖 AI Chord Suggestions</h3>
+                <p>Get intelligent chord voicing suggestions powered by machine learning. Perfect chord for every moment.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🎹 Voice Leading Optimization</h3>
+                <p>Smoothly transition between chords with optimized voice leading. Professional results every time.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🎵 Jazz Reharmonization</h3>
+                <p>Explore sophisticated harmonic substitutions. Perfect for jazz, R&B, and complex music.</p>
+            </div>
+            <div class="feature-card">
+                <h3>📊 32-Band Spectrum Analyzer</h3>
+                <p>Visual feedback with real-time harmonic analysis. Watch harmonic content unfold in real-time.</p>
+            </div>
+            <div class="feature-card">
+                <h3>⚡ Professional Effects</h3>
+                <p>6 built-in effects with advanced chain control. Shape your sound with precision.</p>
+            </div>
+            <div class="feature-card">
+                <h3>💾 Preset Browser</h3>
+                <p>200+ professional presets included. Save and organize your own custom configurations.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🎚️ MIDI Routing</h3>
+                <p>Flexible MIDI channel mapping. Control scale detection and processing per-channel.</p>
+            </div>
+        </section>
+
+        <section class="download-section" id="download">
+            <h2>📥 Download ScaleChord v1.0.0</h2>
+            <p style="margin-bottom: 2rem; color: #666;">
+                Choose your operating system to get started. Binary distributions available for macOS, Windows, and Linux.
+            </p>
+            <div class="download-grid">
+                <div class="download-card">
+                    <div class="os-icon">🍎</div>
+                    <h3>macOS</h3>
+                    <p style="font-size: 0.9rem; color: #666; margin: 0.5rem 0;">Universal binary (Intel & Apple Silicon)</p>
+                    <a href="https://github.com/thabanghutamo/production-works/releases/download/v1.0.0/scalechord-1.0.0-macos-universal.dmg" class="btn btn-primary">Download DMG</a>
+                </div>
+                <div class="download-card">
+                    <div class="os-icon">🪟</div>
+                    <h3>Windows</h3>
+                    <p style="font-size: 0.9rem; color: #666; margin: 0.5rem 0;">64-bit & 32-bit support</p>
+                    <a href="https://github.com/thabanghutamo/production-works/releases/download/v1.0.0/scalechord-1.0.0-windows-64bit.msi" class="btn btn-primary">Download MSI</a>
+                </div>
+                <div class="download-card">
+                    <div class="os-icon">🐧</div>
+                    <h3>Linux</h3>
+                    <p style="font-size: 0.9rem; color: #666; margin: 0.5rem 0;">AppImage & Package support</p>
+                    <a href="https://github.com/thabanghutamo/production-works/releases/download/v1.0.0/scalechord-1.0.0-linux-x86_64.AppImage" class="btn btn-primary">Download AppImage</a>
+                </div>
+            </div>
+        </section>
+
+        <section style="background: white; padding: 2rem; border-radius: 10px; margin: 2rem 0; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);">
+            <h2 style="color: #667eea; margin-bottom: 1rem;">🎯 DAW Compatibility</h2>
+            <p style="margin-bottom: 1.5rem; color: #666;">ScaleChord works seamlessly with all major DAWs:</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div style="padding: 1rem; border-left: 4px solid #667eea;">
+                    <strong>✅ Ableton Live</strong><br>
+                    <span style="color: #666; font-size: 0.9rem;">12, 11, 10</span>
+                </div>
+                <div style="padding: 1rem; border-left: 4px solid #667eea;">
+                    <strong>✅ Logic Pro</strong><br>
+                    <span style="color: #666; font-size: 0.9rem;">22, 21, 20</span>
+                </div>
+                <div style="padding: 1rem; border-left: 4px solid #667eea;">
+                    <strong>✅ FL Studio</strong><br>
+                    <span style="color: #666; font-size: 0.9rem;">21, 20, 19</span>
+                </div>
+                <div style="padding: 1rem; border-left: 4px solid #667eea;">
+                    <strong>✅ Reaper</strong><br>
+                    <span style="color: #666; font-size: 0.9rem;">7.x+</span>
+                </div>
+            </div>
+        </section>
+
+        <section style="background: white; padding: 2rem; border-radius: 10px; margin: 2rem 0; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);">
+            <h2 style="color: #667eea; margin-bottom: 1rem;">📖 Documentation</h2>
+            <p style="margin-bottom: 1.5rem; color: #666;">Comprehensive guides for every skill level:</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                <a href="RELEASE_GETTING_STARTED.md" style="padding: 1rem; border: 1px solid #ddd; border-radius: 5px; text-decoration: none; color: #333; transition: all 0.3s;"
+                   onmouseover="this.style.borderColor='#667eea'; this.style.boxShadow='0 3px 10px rgba(102,126,234,0.2)'"
+                   onmouseout="this.style.borderColor='#ddd'; this.style.boxShadow='none'">
+                    <strong>🚀 Getting Started</strong><br>
+                    <span style="color: #666; font-size: 0.9rem;">5-minute quick start guide</span>
+                </a>
+                <a href="RELEASE_PARAMETER_REFERENCE.md" style="padding: 1rem; border: 1px solid #ddd; border-radius: 5px; text-decoration: none; color: #333; transition: all 0.3s;"
+                   onmouseover="this.style.borderColor='#667eea'; this.style.boxShadow='0 3px 10px rgba(102,126,234,0.2)'"
+                   onmouseout="this.style.borderColor='#ddd'; this.style.boxShadow='none'">
+                    <strong>⚙️ Parameters</strong><br>
+                    <span style="color: #666; font-size: 0.9rem;">Complete parameter reference</span>
+                </a>
+                <a href="RELEASE_ADVANCED_FEATURES.md" style="padding: 1rem; border: 1px solid #ddd; border-radius: 5px; text-decoration: none; color: #333; transition: all 0.3s;"
+                   onmouseover="this.style.borderColor='#667eea'; this.style.boxShadow='0 3px 10px rgba(102,126,234,0.2)'"
+                   onmouseout="this.style.borderColor='#ddd'; this.style.boxShadow='none'">
+                    <strong>✨ Advanced Guide</strong><br>
+                    <span style="color: #666; font-size: 0.9rem;">Power user techniques</span>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <h3>ScaleChord v1.0.0</h3>
+        <p>AI-Powered Harmonic Intelligence for Music Producers</p>
+        <div class="links">
+            <a href="https://github.com/thabanghutamo/production-works">GitHub</a>
+            <a href="https://github.com/thabanghutamo/production-works/discussions">Discussions</a>
+            <a href="https://github.com/thabanghutamo/production-works/issues">Issues</a>
+            <a href="ROADMAP.md">Roadmap</a>
+            <a href="CONTRIBUTING.md">Contributing</a>
+        </div>
+        <p style="margin-top: 2rem; opacity: 0.8; font-size: 0.9rem;">
+            © 2025 ScaleChord Project. Released under MIT License.<br>
+            Made with ❤️ for musicians and producers worldwide.
+        </p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,10 @@
+theme: jekyll-theme-cayman
+title: ScaleChord - AI-Powered Harmonic Intelligence
+description: Real-time scale detection and intelligent chord suggestions for music producers
+plugins:
+  - jekyll-seo-tag
+  - jekyll-github-metadata
+
+# Site configuration
+show_downloads: false
+google_analytics: 
