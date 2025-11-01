@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/scalechord_benchmark.dir/tests/benchmark.cpp.o -o scalechord_benchmark  libscalechord_core.a 

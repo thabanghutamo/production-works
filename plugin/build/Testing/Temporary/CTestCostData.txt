@@ -1,6 +1,0 @@
-scale_tests 3 0.00262786
-chord_intelligence_tests 3 0.00183964
-preset_tests 3 0.001974
-effects_chain_tests 3 0.00406691
-performance_dashboard_tests 3 0.00117809
----

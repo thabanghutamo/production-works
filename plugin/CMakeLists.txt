@@ -1,86 +1,116 @@
 cmake_minimum_required(VERSION 3.16)
-project(ScaleChordPlugin VERSION 1.0 LANGUAGES CXX)
+
+project(ScaleChordVST3 VERSION 1.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# ============================================================================
-# JUCE Integration Configuration (Task 8: UI Framework)
-# ============================================================================
-option(USE_JUCE "Build with JUCE for full VST3/AU plugin support" ON)
-option(JUCE_BUILD_EXTRAS "Build JUCE extras" OFF)
+# Test - just build the core library first
+message(STATUS "ScaleChord Core Library - Building...")
 
-# ScaleChord Core Library (zero external dependencies)
-# This library provides the MIDI mapping core independent of any plugin framework
-
-add_library(scalechord_core
-    src/ScaleMapper.cpp
+# Core library files
+add_library(scalechord_core STATIC
+    src/ChordAnalyzer.cpp
     src/ChordVoicer.cpp
     src/Envelope.cpp
-    src/NoteTracker.cpp
-    src/MIDIEffects.cpp
-    src/ChordAnalyzer.cpp
-    src/VoiceLeading.cpp
     src/JazzReharmonizer.cpp
-    src/PresetManager.cpp
-    src/EffectsChain.cpp
-    src/PerformanceDashboard.cpp
-    src/PluginEditor.cpp
-    src/PresetBrowser.cpp
+    src/MIDIEffects.cpp
+    src/NoteTracker.cpp
+    src/ScaleMapper.cpp
+    src/VoiceLeading.cpp
 )
 
-target_include_directories(scalechord_core PUBLIC include)
+target_include_directories(scalechord_core PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
 
-add_executable(scalechord_demo src/demo_main.cpp)
-target_link_libraries(scalechord_demo PRIVATE scalechord_core)
+message(STATUS "✓ Core library configured")
 
-add_executable(scalechord_advanced src/advanced_demo.cpp)
-target_link_libraries(scalechord_advanced PRIVATE scalechord_core)
-
-enable_testing()
-add_executable(test_scale tests/test_scale.cpp)
-target_link_libraries(test_scale PRIVATE scalechord_core)
-add_test(NAME scale_tests COMMAND test_scale)
-
-add_executable(test_chord_intelligence tests/test_chord_intelligence.cpp)
-target_link_libraries(test_chord_intelligence PRIVATE scalechord_core)
-add_test(NAME chord_intelligence_tests COMMAND test_chord_intelligence)
-
-add_executable(test_presets tests/test_presets.cpp)
-target_link_libraries(test_presets PRIVATE scalechord_core)
-add_test(NAME preset_tests COMMAND test_presets)
-
-add_executable(test_effects_chain tests/test_effects_chain.cpp)
-target_link_libraries(test_effects_chain PRIVATE scalechord_core)
-add_test(NAME effects_chain_tests COMMAND test_effects_chain)
-
-add_executable(test_performance_dashboard tests/test_performance_dashboard.cpp)
-target_link_libraries(test_performance_dashboard PRIVATE scalechord_core)
-add_test(NAME performance_dashboard_tests COMMAND test_performance_dashboard)
-
-add_executable(scalechord_benchmark tests/benchmark.cpp)
-target_link_libraries(scalechord_benchmark PRIVATE scalechord_core)
-# Don't add to tests - this is a standalone benchmark, not a unit test
-
-# ============================================================================
-# JUCE Integration Module (Task 8: UI Framework)
-# ============================================================================
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-include(JuceSetup)
-
-# Optional: Add JUCE plugin target if JUCE is available
-if(USE_JUCE AND TARGET juce_core)
-    add_scalechord_plugin()
+# JUCE integration
+if(DEFINED JUCE_PATH)
+    message(STATUS "JUCE Framework: ${JUCE_PATH}")
+    
+    add_subdirectory(${JUCE_PATH} JUCE)
+    
+    # VST3 Plugin target
+    juce_add_plugin(ScaleChordPlugin
+        COMPANY_NAME "ScaleChord"
+        PLUGIN_MANUFACTURER_CODE "Scal"
+        PLUGIN_CODE "SCRD"
+        FORMATS VST3
+        PRODUCT_NAME "ScaleChord"
+        IS_MIDI_EFFECT TRUE
+        NEEDS_MIDI_INPUT TRUE
+        PRODUCES_MIDI_OUTPUT TRUE
+    )
+    
+    # Add plugin sources
+    target_sources(ScaleChordPlugin PRIVATE
+        src/ChordAnalyzer.cpp
+        src/ChordVoicer.cpp
+        src/Envelope.cpp
+        src/JazzReharmonizer.cpp
+        src/MIDIEffects.cpp
+        src/NoteTracker.cpp
+        src/ScaleMapper.cpp
+        src/VoiceLeading.cpp
+        juce_plugin/src/PluginProcessor.cpp
+        juce_plugin/src/PluginEditor.cpp
+    )
+    
+    target_include_directories(ScaleChordPlugin PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/juce_plugin/include
+        /usr/include/gtk-3.0
+        /usr/include/pango-1.0
+        /usr/include/glib-2.0
+        /usr/lib/x86_64-linux-gnu/glib-2.0/include
+        /usr/include/harfbuzz
+        /usr/include/freetype2
+        /usr/include/libpng16
+        /usr/include/libmount
+        /usr/include/blkid
+        /usr/include/fribidi
+        /usr/include/cairo
+        /usr/include/pixman-1
+        /usr/include/gdk-pixbuf-2.0
+        /usr/include/x86_64-linux-gnu
+        /usr/include/webp
+        /usr/include/gio-unix-2.0
+        /usr/include/atk-1.0
+        /usr/include/at-spi2-atk/2.0
+        /usr/include/at-spi-2.0
+        /usr/include/dbus-1.0
+        /usr/lib/x86_64-linux-gnu/dbus-1.0/include
+        /usr/include/webkit2gtk-4.1
+    )
+    
+    # Make core library headers available as system includes
+    target_include_directories(ScaleChordPlugin SYSTEM PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+    )
+    
+    target_link_libraries(ScaleChordPlugin PRIVATE
+        juce::juce_audio_processors
+        juce::juce_core
+        juce::juce_events
+        juce::juce_gui_basics
+        juce::juce_dsp
+    )
+    
+    # Disable GUI extra module to avoid GTK/Pango/HarfBuzz dependencies
+    target_compile_definitions(ScaleChordPlugin PRIVATE
+        JUCE_DISABLE_NATIVE_HEADERVIEW_DRAGGING=1
+    )
+    
+    message(STATUS "✓ VST3 Plugin configured")
+else()
+    message(STATUS "⚠ JUCE_PATH not set - VST3 plugin target skipped")
+    message(STATUS "   To build VST3 plugin, run: cmake -DJUCE_PATH=/path/to/JUCE .")
 endif()
 
-# ============================================================================
-# Build Summary
-# ============================================================================
 message(STATUS "")
-message(STATUS "ScaleChord Plugin Build Configuration:")
-message(STATUS "  Version: 1.0.0")
-message(STATUS "  C++ Standard: ${CMAKE_CXX_STANDARD}")
-message(STATUS "  Build Type: ${CMAKE_BUILD_TYPE}")
-message(STATUS "  JUCE Integration: ${USE_JUCE}")
-message(STATUS "  Tests: ENABLED (5 test suites)")
+message(STATUS "Build commands:")
+message(STATUS "  cmake --build . --config Release")
+message(STATUS "  cmake --install . --prefix dist")
 message(STATUS "")

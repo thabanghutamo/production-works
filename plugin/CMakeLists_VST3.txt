@@ -1,0 +1,210 @@
+cmake_minimum_required(VERSION 3.21)
+
+project(ScaleChordVST3Plugin VERSION 1.0.0 LANGUAGES CXX)
+
+# ============================================================================
+# Build Configuration
+# ============================================================================
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+# Enable verbose output
+set(CMAKE_VERBOSE_MAKEFILE ON)
+
+# ============================================================================
+# Paths and Directories
+# ============================================================================
+
+set(PLUGIN_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+set(PLUGIN_SOURCE_DIR "${PLUGIN_DIR}/plugin")
+set(JUCE_PLUGIN_DIR "${PLUGIN_DIR}/plugin/juce_plugin")
+set(CORE_INCLUDE_DIR "${PLUGIN_SOURCE_DIR}/include")
+set(CORE_SOURCE_DIR "${PLUGIN_SOURCE_DIR}/src")
+
+# ============================================================================
+# JUCE Framework Configuration
+# ============================================================================
+
+if(NOT DEFINED JUCE_PATH)
+    message(FATAL_ERROR 
+        "JUCE_PATH not set. Please specify the path to JUCE:\n"
+        "  cmake -DJUCE_PATH=/path/to/JUCE -B build")
+endif()
+
+if(NOT EXISTS "${JUCE_PATH}/CMakeLists.txt")
+    message(FATAL_ERROR "JUCE CMakeLists.txt not found at ${JUCE_PATH}")
+endif()
+
+message(STATUS "Using JUCE from: ${JUCE_PATH}")
+add_subdirectory("${JUCE_PATH}" JUCE)
+
+# ============================================================================
+# Core ScaleChord Library
+# ============================================================================
+
+# Build core library
+add_library(scalechord_core STATIC
+    ${CORE_SOURCE_DIR}/ChordAnalyzer.cpp
+    ${CORE_SOURCE_DIR}/ChordVoicer.cpp
+    ${CORE_SOURCE_DIR}/Envelope.cpp
+    ${CORE_SOURCE_DIR}/JazzReharmonizer.cpp
+    ${CORE_SOURCE_DIR}/MIDIEffects.cpp
+    ${CORE_SOURCE_DIR}/NoteTracker.cpp
+    ${CORE_SOURCE_DIR}/ScaleMapper.cpp
+    ${CORE_SOURCE_DIR}/VoiceLeading.cpp
+)
+
+target_include_directories(scalechord_core PUBLIC
+    ${CORE_INCLUDE_DIR}
+)
+
+target_compile_options(scalechord_core PRIVATE
+    $<$<CXX_COMPILER_ID:MSVC>:/W4>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic>
+)
+
+# ============================================================================
+# VST3 Plugin
+# ============================================================================
+
+juce_add_plugin(ScaleChordPlugin
+    COMPANY_NAME "ScaleChord"
+    PLUGIN_MANUFACTURER_CODE "Scal"
+    PLUGIN_CODE "SCRD"
+    FORMATS VST3 AU
+    PRODUCT_NAME "ScaleChord"
+    DESCRIPTION "Intelligent chord generator and voice leading tool"
+    VERSION "1.0.0"
+    IS_MIDI_EFFECT TRUE
+    NEEDS_MIDI_INPUT TRUE
+    PRODUCES_MIDI_OUTPUT TRUE
+    VST3_CATEGORIES "Instrument" "MIDI Effect"
+)
+
+# Add plugin source files
+target_sources(ScaleChordPlugin PRIVATE
+    # Core library integration
+    ${CORE_SOURCE_DIR}/ChordAnalyzer.cpp
+    ${CORE_SOURCE_DIR}/ChordVoicer.cpp
+    ${CORE_SOURCE_DIR}/Envelope.cpp
+    ${CORE_SOURCE_DIR}/JazzReharmonizer.cpp
+    ${CORE_SOURCE_DIR}/MIDIEffects.cpp
+    ${CORE_SOURCE_DIR}/NoteTracker.cpp
+    ${CORE_SOURCE_DIR}/ScaleMapper.cpp
+    ${CORE_SOURCE_DIR}/VoiceLeading.cpp
+    
+    # Plugin wrapper
+    ${JUCE_PLUGIN_DIR}/src/PluginProcessor.cpp
+    ${JUCE_PLUGIN_DIR}/src/PluginEditor.cpp
+)
+
+# Add include directories
+target_include_directories(ScaleChordPlugin PRIVATE
+    ${CORE_INCLUDE_DIR}
+    ${JUCE_PLUGIN_DIR}/include
+)
+
+# Link JUCE modules
+target_link_libraries(ScaleChordPlugin PRIVATE
+    juce::juce_audio_basics
+    juce::juce_audio_devices
+    juce::juce_audio_formats
+    juce::juce_audio_plugin_client
+    juce::juce_audio_processors
+    juce::juce_audio_utils
+    juce::juce_core
+    juce::juce_data_structures
+    juce::juce_events
+    juce::juce_graphics
+    juce::juce_gui_basics
+    juce::juce_gui_extra
+    juce::juce_dsp
+    juce::juce_video
+)
+
+# Compiler optimizations for release builds
+target_compile_options(ScaleChordPlugin PRIVATE
+    $<$<CONFIG:Release>:-O3>
+    $<$<CONFIG:Debug>:-g -O0>
+)
+
+# Link math library on Linux
+if(UNIX AND NOT APPLE)
+    target_link_libraries(ScaleChordPlugin PRIVATE m)
+endif()
+
+# ============================================================================
+# Copy Plugin to Appropriate Location
+# ============================================================================
+
+if(APPLE)
+    # macOS: ~/Library/Audio/Plug-Ins/VST3
+    set(VST3_PLUGIN_DEST "~/Library/Audio/Plug-Ins/VST3")
+    set(AU_PLUGIN_DEST "~/Library/Audio/Plug-Ins/Components")
+elseif(WIN32)
+    # Windows: C:\Program Files\Common Files\VST3
+    set(VST3_PLUGIN_DEST "C:\\Program Files\\Common Files\\VST3")
+else()
+    # Linux: ~/.vst3
+    set(VST3_PLUGIN_DEST "~/.vst3")
+endif()
+
+# ============================================================================
+# Build Options
+# ============================================================================
+
+option(SCALECHORD_ENABLE_LTO "Enable Link Time Optimization" ON)
+option(SCALECHORD_ENABLE_IPO "Enable Interprocedural Optimization" ON)
+option(SCALECHORD_STRIP_DEBUG "Strip debug symbols from release build" OFF)
+
+if(SCALECHORD_ENABLE_LTO)
+    include(CheckIPOSupported)
+    check_ipo_supported(RESULT IPO_SUPPORTED OUTPUT IPO_OUTPUT)
+    if(IPO_SUPPORTED)
+        set_property(TARGET ScaleChordPlugin PROPERTY INTERPROCEDURAL_OPTIMIZATION ON)
+        message(STATUS "✓ Link Time Optimization enabled")
+    else()
+        message(STATUS "✗ IPO not supported: ${IPO_OUTPUT}")
+    endif()
+endif()
+
+# ============================================================================
+# Installation
+# ============================================================================
+
+install(TARGETS ScaleChordPlugin
+    LIBRARY DESTINATION "lib"
+    RUNTIME DESTINATION "bin"
+    BUNDLE DESTINATION "."
+)
+
+# ============================================================================
+# Summary
+# ============================================================================
+
+message(STATUS "")
+message(STATUS "╔════════════════════════════════════════════════════════════╗")
+message(STATUS "║         ScaleChord VST3 Plugin Configuration               ║")
+message(STATUS "╠════════════════════════════════════════════════════════════╣")
+message(STATUS "║ Project:  ${PROJECT_NAME}")
+message(STATUS "║ Version:  ${PROJECT_VERSION}")
+message(STATUS "║ CMake:    ${CMAKE_VERSION}")
+message(STATUS "║ C++:      ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
+message(STATUS "║ JUCE:     ${JUCE_PATH}")
+message(STATUS "╠════════════════════════════════════════════════════════════╣")
+message(STATUS "║ Build Type:     ${CMAKE_BUILD_TYPE}")
+message(STATUS "║ LTO:            ${SCALECHORD_ENABLE_LTO}")
+message(STATUS "║ IPO:            ${SCALECHORD_ENABLE_IPO}")
+message(STATUS "║ Debug Symbols:  ${SCALECHORD_STRIP_DEBUG}")
+message(STATUS "╠════════════════════════════════════════════════════════════╣")
+message(STATUS "║ Build Commands:                                          ║")
+message(STATUS "║   cmake --build build                                      ║")
+message(STATUS "║   cmake --build build --config Release                     ║")
+message(STATUS "║   cmake --install build --prefix dist                      ║")
+message(STATUS "╠════════════════════════════════════════════════════════════╣")
+message(STATUS "║ VST3 Plugin Destination:  ${VST3_PLUGIN_DEST}")
+message(STATUS "║ AU Plugin Destination:    ${AU_PLUGIN_DEST}")
+message(STATUS "╚════════════════════════════════════════════════════════════╝")
+message(STATUS "")

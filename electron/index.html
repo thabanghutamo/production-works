@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScaleChord VST3 Plugin Manager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <h1 class="header-title">
+          <span class="icon">🎼</span>
+          ScaleChord VST3 Plugin
+        </h1>
+        <p class="header-subtitle">Intelligent MIDI Voicing & Chord Generation</p>
+      </div>
+      <div class="header-status" id="statusIndicator">
+        <span class="status-dot"></span>
+        <span class="status-text">Checking...</span>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Plugin Info Section -->
+      <section class="section plugin-info">
+        <h2>📋 Plugin Information</h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">Plugin Name:</span>
+            <span class="info-value" id="pluginName">ScaleChord VST3</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Version:</span>
+            <span class="info-value" id="pluginVersion">1.0.0</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Type:</span>
+            <span class="info-value">VST3 MIDI Effect</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Status:</span>
+            <span class="info-value status-value" id="installStatus">Not Installed</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section class="section features">
+        <h2>✨ Key Features</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🎵</div>
+            <h3>Intelligent Voicing</h3>
+            <p>Scale-aware chord generation with multiple voicing algorithms</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🎸</div>
+            <h3>Voice Leading</h3>
+            <p>Smooth transitions with 4 advanced voice leading modes</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🎹</div>
+            <h3>Real-time MIDI</h3>
+            <p>Ultra-low latency processing with 16-channel routing</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">⚙️</div>
+            <h3>Full Automation</h3>
+            <p>7 automatable parameters for dynamic control</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🎼</div>
+            <h3>13+ Scales</h3>
+            <p>Major, minor, blues, pentatonic, and jazz scales included</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🎺</div>
+            <h3>Jazz Mode</h3>
+            <p>Jazz reharmonization with advanced harmonic substitutions</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Installation Section -->
+      <section class="section installation">
+        <h2>📥 Installation</h2>
+        
+        <div class="install-methods">
+          <!-- Method 1: Auto Install -->
+          <div class="install-method">
+            <h3>Automatic Installation</h3>
+            <p class="method-description">Install plugin to the standard VST3 folder on your system</p>
+            <button class="btn btn-primary" id="autoInstallBtn" onclick="installPlugin()">
+              🚀 Install Plugin
+            </button>
+            <p class="method-note" id="autoInstallNote"></p>
+          </div>
+
+          <!-- Method 2: Manual Install -->
+          <div class="install-method">
+            <h3>Manual Installation</h3>
+            <p class="method-description">Copy plugin to custom location or view installation paths</p>
+            <div class="vst3-paths" id="vst3PathsContainer">
+              <div class="path-item">
+                <span class="path-label">User VST3:</span>
+                <span class="path-value" id="userVstPath">Loading...</span>
+                <button class="btn btn-small" onclick="copyToClipboard('#userVstPath')">📋 Copy</button>
+              </div>
+              <div class="path-item">
+                <span class="path-label">System VST3:</span>
+                <span class="path-value" id="systemVstPath">Loading...</span>
+                <button class="btn btn-small" onclick="copyToClipboard('#systemVstPath')">📋 Copy</button>
+              </div>
+            </div>
+            <button class="btn btn-secondary" id="browseBtn" onclick="browseForInstallation()">
+              📁 Browse Location
+            </button>
+          </div>
+
+          <!-- Method 3: DAW Integration -->
+          <div class="install-method">
+            <h3>DAW Integration</h3>
+            <p class="method-description">Configure ScaleChord in your favorite DAW</p>
+            <div class="daw-list">
+              <div class="daw-item">
+                <span class="daw-name">Ableton Live</span>
+                <span class="daw-note">Rescan Plugins in Preferences → Plugin/MIDI</span>
+              </div>
+              <div class="daw-item">
+                <span class="daw-name">Studio One</span>
+                <span class="daw-note">Preferences → VST3 → Rescan</span>
+              </div>
+              <div class="daw-item">
+                <span class="daw-name">Cubase</span>
+                <span class="daw-note">Devices → Plugin Manager → Rescan</span>
+              </div>
+              <div class="daw-item">
+                <span class="daw-name">Logic Pro</span>
+                <span class="daw-note">File → Preferences → Audio/MIDI → Plug-in Manager</span>
+              </div>
+              <div class="daw-item">
+                <span class="daw-name">FL Studio</span>
+                <span class="daw-note">Options → File Settings → Plugin Database → Scan</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Parameters Section -->
+      <section class="section parameters">
+        <h2>🎛️ Plugin Parameters</h2>
+        <div class="params-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Range</th>
+                <th>Default</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Scale</td>
+                <td>13 options</td>
+                <td>Major</td>
+                <td>Select musical scale for voicing generation</td>
+              </tr>
+              <tr>
+                <td>Voice Leading Mode</td>
+                <td>4 modes</td>
+                <td>Smooth</td>
+                <td>Choose voicing algorithm (Smooth, Optimal, Jazz, Off)</td>
+              </tr>
+              <tr>
+                <td>MIDI Effects</td>
+                <td>On / Off</td>
+                <td>On</td>
+                <td>Enable MIDI effect processing</td>
+              </tr>
+              <tr>
+                <td>Jazz Reharmonization</td>
+                <td>On / Off</td>
+                <td>Off</td>
+                <td>Enable jazz-specific harmonic substitutions</td>
+              </tr>
+              <tr>
+                <td>Voicing Threshold</td>
+                <td>0.0 - 1.0</td>
+                <td>0.5</td>
+                <td>Chord recognition sensitivity</td>
+              </tr>
+              <tr>
+                <td>Analysis Smoothing</td>
+                <td>0.0 - 1.0</td>
+                <td>0.75</td>
+                <td>Smoothing for stability</td>
+              </tr>
+              <tr>
+                <td>Max Polyphony</td>
+                <td>1 - 16</td>
+                <td>16</td>
+                <td>Maximum number of output voices</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- System Requirements Section -->
+      <section class="section requirements">
+        <h2>⚙️ System Requirements</h2>
+        <div class="requirements-grid">
+          <div class="requirement-item">
+            <h3>Minimum Requirements</h3>
+            <ul>
+              <li>CPU: Dual-core processor minimum</li>
+              <li>RAM: 512 MB available memory</li>
+              <li>Storage: 50 MB free space</li>
+              <li>DAW: Any VST3-compatible host</li>
+            </ul>
+          </div>
+          <div class="requirement-item">
+            <h3>Recommended Requirements</h3>
+            <ul>
+              <li>CPU: Quad-core or better</li>
+              <li>RAM: 2 GB or more</li>
+              <li>Storage: SSD for best performance</li>
+              <li>DAW: Modern DAW (2022+)</li>
+            </ul>
+          </div>
+          <div class="requirement-item">
+            <h3>Supported Platforms</h3>
+            <ul>
+              <li>macOS 10.13+</li>
+              <li>Windows 7 SP1+</li>
+              <li>Linux (Ubuntu 18.04+)</li>
+              <li>All VST3-compatible DAWs</li>
+            </ul>
+          </div>
+          <div class="requirement-item">
+            <h3>Performance</h3>
+            <ul>
+              <li>CPU Load: &lt;1% typical</li>
+              <li>Latency: 0ms real-time</li>
+              <li>Polyphony: Up to 16 voices</li>
+              <li>Update Rate: 60 Hz GUI</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Support Section -->
+      <section class="section support">
+        <h2>❓ Need Help?</h2>
+        <div class="support-options">
+          <div class="support-option">
+            <h3>📖 Documentation</h3>
+            <p>Read comprehensive guides and tutorials</p>
+            <button class="btn btn-outline" onclick="openDocumentation()">View Docs</button>
+          </div>
+          <div class="support-option">
+            <h3>🐛 Report Issue</h3>
+            <p>Found a bug? Let us know on GitHub</p>
+            <button class="btn btn-outline" onclick="reportIssue()">Report</button>
+          </div>
+          <div class="support-option">
+            <h3>💬 Community</h3>
+            <p>Connect with other users and get tips</p>
+            <button class="btn btn-outline" onclick="joinCommunity()">Join</button>
+          </div>
+          <div class="support-option">
+            <h3>🎓 Tutorials</h3>
+            <p>Watch video tutorials and walkthroughs</p>
+            <button class="btn btn-outline" onclick="watchTutorials()">Watch</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2025 ScaleChord. All rights reserved.</p>
+      <p>VST is a trademark of Steinberg Media Technologies GmbH</p>
+    </footer>
+  </div>
+
+  <!-- Notification Toast -->
+  <div class="toast" id="notificationToast">
+    <span id="toastMessage"></span>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

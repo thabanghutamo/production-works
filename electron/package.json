@@ -1,0 +1,74 @@
+{
+  "name": "scalechord-plugin",
+  "version": "1.0.0",
+  "description": "ScaleChord VST3 Plugin - Intelligent MIDI Voicing and Chord Generation",
+  "main": "main.js",
+  "author": "ScaleChord Development",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder",
+    "build:all": "electron-builder -mwl",
+    "build:mac": "electron-builder -m",
+    "build:win": "electron-builder -w",
+    "build:linux": "electron-builder -l",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "latest",
+    "electron-builder": "latest"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "body-parser": "^1.20.2",
+    "os": "^0.1.2",
+    "path": "^0.12.7",
+    "fs": "^0.0.1-security"
+  },
+  "build": {
+    "appId": "com.scalechord.plugin",
+    "productName": "ScaleChord Plugin",
+    "directories": {
+      "buildResources": "assets"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer.js",
+      "styles.css",
+      "index.html",
+      "assets/**/*",
+      "vst3_plugin/**/*",
+      "node_modules/**/*"
+    ],
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.music"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Audio"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
+}

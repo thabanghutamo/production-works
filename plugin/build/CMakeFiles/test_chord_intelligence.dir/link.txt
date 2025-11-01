@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/test_chord_intelligence.dir/tests/test_chord_intelligence.cpp.o -o test_chord_intelligence  libscalechord_core.a 
