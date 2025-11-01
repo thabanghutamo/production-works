@@ -1,0 +1,299 @@
+Start testing: Nov 01 13:40 UTC
+----------------------------------------------------------
+1/5 Testing: scale_tests
+1/5 Test: scale_tests
+Command: "/workspaces/production-works/plugin/build/test_scale"
+Directory: /workspaces/production-works/plugin/build
+"scale_tests" start time: Nov 01 13:40 UTC
+Output:
+----------------------------------------------------------
+All tests passed
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"scale_tests" end time: Nov 01 13:40 UTC
+"scale_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/5 Testing: chord_intelligence_tests
+2/5 Test: chord_intelligence_tests
+Command: "/workspaces/production-works/plugin/build/test_chord_intelligence"
+Directory: /workspaces/production-works/plugin/build
+"chord_intelligence_tests" start time: Nov 01 13:40 UTC
+Output:
+----------------------------------------------------------
+
+=== ScaleChord Task 3: Chord Intelligence Tests ===
+
+ChordAnalyzer Tests:
+✓ ChordAnalyzer: Major triad detection
+✓ ChordAnalyzer: Major triad confidence
+✓ ChordAnalyzer: Major triad root
+✓ ChordAnalyzer: Minor triad detection
+✓ ChordAnalyzer: Minor triad confidence
+✓ ChordAnalyzer: Dominant7 detection
+✓ ChordAnalyzer: Dominant7 confidence
+✓ ChordAnalyzer: Major7 detection
+✓ ChordAnalyzer: Major7 confidence
+✓ ChordAnalyzer: Tonic detection
+✓ ChordAnalyzer: Dominant detection
+✓ ChordAnalyzer: Subdominant detection
+✓ ChordAnalyzer: Relative minor detection
+✓ ChordAnalyzer: Ambiguous chord returns interpretations
+✓ ChordAnalyzer: Interpretations sorted by confidence
+✓ ChordAnalyzer: Quality to string conversion
+
+VoiceLeading Tests:
+✓ VoiceLeading: Pitch class C
+✓ VoiceLeading: Pitch class C#
+✓ VoiceLeading: Pitch class G
+✓ VoiceLeading: Octave of middle C
+✓ VoiceLeading: Octave calculation
+✓ VoiceLeading: Make MIDI note
+✓ VoiceLeading: Optimized voicing size
+✓ VoiceLeading: Optimization reduces distance
+✓ VoiceLeading: Smooth scores higher than rough
+✓ VoiceLeading: Score in range
+✓ VoiceLeading: Suggest returns voicing
+✓ VoiceLeading: Suggest score in range
+✓ VoiceLeading: Distance non-negative
+
+JazzReharmonizer Tests:
+✓ JazzReharmonizer: V chord has substitutions
+✓ JazzReharmonizer: V chord suggestions have good musicality
+✓ JazzReharmonizer: Tritone sub maintains voicing size
+✓ JazzReharmonizer: Tritone root distance
+✓ JazzReharmonizer: Secondary dominant generates chord
+✓ JazzReharmonizer: Secondary dominant is 7th chord
+✓ JazzReharmonizer: Parallel voicing generates result
+✓ JazzReharmonizer: Upper structure generates notes
+✓ JazzReharmonizer: Upper structure keeps bass note
+
+Integration Tests:
+✓ Integration: Chord analysis works
+✓ Integration: Chord analysis works
+✓ Integration: Voice leading score valid
+✓ Integration: Chord analysis works
+✓ Integration: Voice leading score valid
+✓ Integration: Chord analysis works
+✓ Integration: Voice leading score valid
+✓ Integration: ii chord analyzed
+✓ Integration: V7 chord analyzed
+✓ Integration: I chord analyzed
+✓ Integration: Jazz tritone sub works
+
+=== Test Summary ===
+Passed: 49
+Failed: 0
+
+✓ All tests passed!
+
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"chord_intelligence_tests" end time: Nov 01 13:40 UTC
+"chord_intelligence_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/5 Testing: preset_tests
+3/5 Test: preset_tests
+Command: "/workspaces/production-works/plugin/build/test_presets"
+Directory: /workspaces/production-works/plugin/build
+"preset_tests" start time: Nov 01 13:40 UTC
+Output:
+----------------------------------------------------------
+╔═══════════════════════════════════════════════════╗
+║  ScaleChord Task 7: Preset Manager Unit Tests     ║
+╚═══════════════════════════════════════════════════╝
+
+Testing: PresetManager initialization and factory presets... ✓
+Testing: Presets organized by category... ✓
+Testing: Get presets by category... ✓
+Testing: Jazz Bebop preset configuration... ✓
+Testing: Blues presets have correct configurations... ✓
+Testing: Classical presets have romantic character... ✓
+Testing: Modern EDM preset has arpeggiator... ✓
+Testing: Experimental presets use exotic scales... ✓
+Testing: Create custom preset with defaults... ✓
+Testing: Add custom preset to manager... ✓
+Testing: Remove preset from manager... ✓
+Testing: JSON string escaping and unescaping... ✓
+Testing: JSON contains all preset fields... ✓
+Testing: Parse preset from JSON... ✓
+Testing: Full round-trip preset serialization... ✓
+
+╔═══════════════════════════════════════════════════╗
+║                   Test Summary                    ║
+╠═══════════════════════════════════════════════════╣
+║ Passed: 15/15                                     ║
+║ Status: ✓ ALL TESTS PASSED                       ║
+╚═══════════════════════════════════════════════════╝
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"preset_tests" end time: Nov 01 13:40 UTC
+"preset_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/5 Testing: effects_chain_tests
+4/5 Test: effects_chain_tests
+Command: "/workspaces/production-works/plugin/build/test_effects_chain"
+Directory: /workspaces/production-works/plugin/build
+"effects_chain_tests" start time: Nov 01 13:40 UTC
+Output:
+----------------------------------------------------------
+
+========== EFFECTSCHAIN TEST SUITE ==========
+
+Basic Functionality:
+✓ EffectsChain creation
+✓ Prepare to play
+✓ Process block (mono)
+✓ Process stereo
+
+Parameter Management:
+✓ Reverb parameters
+✓ Delay parameters
+✓ Chorus parameters
+✓ Distortion parameters
+✓ EQ parameters
+✓ Compression parameters
+✓ Parameter upper bounds
+✓ Parameter lower bounds
+
+Effect Control:
+✓ Effect bypass
+✓ Effect enable
+✓ Master mix
+✓ Master mix bounds
+
+Effect Processing:
+✓ Reverb processing
+✓ Delay processing
+✓ Chorus processing
+✓ Distortion processing
+✓ EQ processing
+✓ Compression processing
+
+Reset & Clear:
+✓ Reset effect
+✓ Reset all
+✓ Clear reverb
+✓ Clear delay
+✓ Clear chorus
+
+Analysis & Monitoring:
+✓ Parameter names
+✓ Effect names
+✓ Parameter count
+✓ Latency samples
+✓ CPU usage
+
+Chained Effects:
+✓ Multiple effects chain
+✓ Effects bypass chain
+
+========== TEST SUMMARY ==========
+
+Passed: 34/34
+✓ ALL TESTS PASSED!
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"effects_chain_tests" end time: Nov 01 13:40 UTC
+"effects_chain_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/5 Testing: performance_dashboard_tests
+5/5 Test: performance_dashboard_tests
+Command: "/workspaces/production-works/plugin/build/test_performance_dashboard"
+Directory: /workspaces/production-works/plugin/build
+"performance_dashboard_tests" start time: Nov 01 13:40 UTC
+Output:
+----------------------------------------------------------
+
+========== PERFORMANCEDASHBOARD TEST SUITE ==========
+
+Basic Functionality:
+✓ Dashboard creation
+✓ Dashboard initialize
+✓ Dashboard reset
+
+Voice Metrics:
+✓ Voice metrics update
+✓ Voice metrics peak
+✓ Voice metrics average
+
+CPU Metrics:
+✓ CPU metrics update
+✓ CPU metrics peak
+✓ CPU metrics average
+✓ CPU metrics bounds
+
+Latency Metrics:
+✓ Latency metrics update
+✓ Latency metrics peak
+
+Audio Metrics:
+✓ Audio metrics update
+✓ Audio metrics clipping
+✓ Audio metrics no clipping
+
+Spectrum Analysis:
+✓ Spectrum analysis
+
+Effect Metrics:
+✓ Effect metrics update
+
+Snapshot:
+✓ Snapshot complete
+
+Historical Data:
+✓ CPU history
+✓ Voice history
+
+Statistics:
+✓ CPU statistics
+✓ Latency statistics
+✓ Voice statistics
+
+Information Methods:
+✓ Get sample rate
+✓ Get block size
+✓ Get uptime
+
+Health Score:
+✓ Health score
+
+Display Formatting:
+✓ Format dB
+✓ Format percent
+✓ Format time
+
+Frequency Labels:
+✓ Frequency label
+
+Peak Hold:
+✓ Peak hold
+✓ Reset peak hold
+
+Status String:
+✓ Status string
+
+========== TEST SUMMARY ==========
+
+Passed: 34/34
+✓ ALL TESTS PASSED!
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"performance_dashboard_tests" end time: Nov 01 13:40 UTC
+"performance_dashboard_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Nov 01 13:40 UTC

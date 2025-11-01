@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/test_scale.dir/tests/test_scale.cpp.o -o test_scale  libscalechord_core.a 

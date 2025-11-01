@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/test_presets.dir/tests/test_presets.cpp.o -o test_presets  libscalechord_core.a 

@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/scalechord_advanced.dir/src/advanced_demo.cpp.o -o scalechord_advanced  libscalechord_core.a 
